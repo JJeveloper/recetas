@@ -1,5 +1,6 @@
 package com.gastronomia.recetas.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,17 +20,26 @@ public class RecetaEntity {
     private String preparacion;
 
 
+    @ManyToMany(fetch = FetchType.LAZY)
+//    @JsonIgnore
     @JoinTable(name = "recetas_ingredientes",
     joinColumns = @JoinColumn(name = "id_receta", nullable = false),
     inverseJoinColumns = @JoinColumn(name= "id_ingrediente",nullable = false))
-    @ManyToMany
     private List<IngredientesEntity> ingredientesEntities;
+
+    public RecetaEntity() {
+    }
 
     public RecetaEntity(Integer id, String nombrereceta, String preparacion, List<IngredientesEntity> ingredientesEntities) {
         this.id = id;
         this.nombrereceta = nombrereceta;
         this.preparacion = preparacion;
         this.ingredientesEntities = ingredientesEntities;
+    }
+
+    public RecetaEntity(String nombrereceta, String preparacion) {
+        this.nombrereceta = nombrereceta;
+        this.preparacion = preparacion;
     }
 
     public Integer getId() {

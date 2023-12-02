@@ -1,5 +1,6 @@
 package com.gastronomia.recetas.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,12 +17,20 @@ public class IngredientesEntity {
     private String nombreingrediente;
 
     @ManyToMany(mappedBy = "ingredientesEntities")
+    @JsonIgnore
     private List<RecetaEntity> recetaEntities;
+
+    public IngredientesEntity() {
+    }
 
     public IngredientesEntity(Integer id, String nombreingrediente, List<RecetaEntity> recetaEntities) {
         this.id = id;
         this.nombreingrediente = nombreingrediente;
         this.recetaEntities = recetaEntities;
+    }
+
+    public IngredientesEntity(String nombreingrediente) {
+        this.nombreingrediente = nombreingrediente;
     }
 
     public Integer getId() {
